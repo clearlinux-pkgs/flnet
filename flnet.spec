@@ -4,7 +4,7 @@
 #
 Name     : flnet
 Version  : 7.3.2
-Release  : 2
+Release  : 3
 URL      : https://downloads.sourceforge.net/project/fldigi/flnet/flnet-7.3.2.tar.gz
 Source0  : https://downloads.sourceforge.net/project/fldigi/flnet/flnet-7.3.2.tar.gz
 Summary  : No detailed summary available
