@@ -4,14 +4,15 @@
 #
 Name     : flnet
 Version  : 7.3.2
-Release  : 3
-URL      : https://downloads.sourceforge.net/project/fldigi/flnet/flnet-7.3.2.tar.gz
-Source0  : https://downloads.sourceforge.net/project/fldigi/flnet/flnet-7.3.2.tar.gz
+Release  : 4
+URL      : https://sourceforge.net/projects/fldigi/files/flnet/flnet-7.3.2.tar.gz
+Source0  : https://sourceforge.net/projects/fldigi/files/flnet/flnet-7.3.2.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
-Requires: flnet-bin
-Requires: flnet-data
+Requires: flnet-bin = %{version}-%{release}
+Requires: flnet-data = %{version}-%{release}
+Requires: flnet-license = %{version}-%{release}
 BuildRequires : fltk-dev
 BuildRequires : fontconfig-dev
 BuildRequires : libXcursor-dev
@@ -35,7 +36,8 @@ to improve the speed of entry and selection
 %package bin
 Summary: bin components for the flnet package.
 Group: Binaries
-Requires: flnet-data
+Requires: flnet-data = %{version}-%{release}
+Requires: flnet-license = %{version}-%{release}
 
 %description bin
 bin components for the flnet package.
@@ -49,6 +51,14 @@ Group: Data
 data components for the flnet package.
 
 
+%package license
+Summary: license components for the flnet package.
+Group: Default
+
+%description license
+license components for the flnet package.
+
+
 %prep
 %setup -q -n flnet-7.3.2
 
@@ -57,9 +67,9 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1508865377
+export SOURCE_DATE_EPOCH=1545266213
 %configure --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
@@ -69,8 +79,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1508865377
+export SOURCE_DATE_EPOCH=1545266213
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/flnet
+cp COPYING %{buildroot}/usr/share/package-licenses/flnet/COPYING
 %make_install
 
 %files
@@ -84,3 +96,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/share/applications/flnet.desktop
 /usr/share/pixmaps/flnet.xpm
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/flnet/COPYING

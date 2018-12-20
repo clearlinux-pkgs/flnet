@@ -1,5 +1,5 @@
 PKG_NAME := flnet
-URL := https://downloads.sourceforge.net/project/fldigi/flnet/flnet-7.3.2.tar.gz
-
+URL = https://sourceforge.net/projects/fldigi/files/flnet/flnet-7.3.2.tar.gz
+ARCHIVES = 
 
 include ../common/Makefile.common
