@@ -4,7 +4,7 @@
 #
 Name     : flnet
 Version  : 7.3.3
-Release  : 6
+Release  : 7
 URL      : https://sourceforge.net/projects/fldigi/files/flnet/flnet-7.3.3.tar.gz
 Source0  : https://sourceforge.net/projects/fldigi/files/flnet/flnet-7.3.3.tar.gz
 Summary  : Library to access network sites using https protocol
@@ -59,17 +59,18 @@ license components for the flnet package.
 
 %prep
 %setup -q -n flnet-7.3.3
+cd %{_builddir}/flnet-7.3.3
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1571174789
+export SOURCE_DATE_EPOCH=1604887127
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
 make  %{?_smp_mflags}
@@ -79,10 +80,10 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1571174789
+export SOURCE_DATE_EPOCH=1604887127
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/flnet
 cp %{_builddir}/flnet-7.3.3/COPYING %{buildroot}/usr/share/package-licenses/flnet/b47456e2c1f38c40346ff00db976a2badf36b5e3
