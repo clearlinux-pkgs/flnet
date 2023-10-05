@@ -1,0 +1,41 @@
+From b4807580f57c02593682f58820cb93905407a0c3 Mon Sep 17 00:00:00 2001
+From: "Brett T. Warden" <brett.t.warden@intel.com>
+Date: Thu, 5 Oct 2023 12:40:25 -0700
+Subject: [PATCH] Fix file errors
+
+Instead of throwing a char* from strerror, throw std::system_error, with
+a filename, to decode errno.
+---
+ src/support/debug.cxx | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/support/debug.cxx b/src/support/debug.cxx
+index 9499f00e7ba2..c2748139b80f 100644
+--- a/src/support/debug.cxx
++++ b/src/support/debug.cxx
+@@ -184,18 +184,18 @@ debug::debug(const char* filename)
+ 	if(!filename) return;
+ 
+ 	if ((wfile = fopen(filename, "w")) == NULL)
+-		throw strerror(errno);
++		throw std::system_error(errno, std::generic_category(), filename);
+ 	setvbuf(wfile, (char*)NULL, _IOLBF, 0);
+ 
+ 	if ((rfile = fopen(filename, "r")) == NULL)
+-		throw strerror(errno);
++		throw std::system_error(errno, std::generic_category(), filename);
+ 	rfd = fileno(rfile);
+ #ifndef __WIN32__
+ 	int f;
+ 	if ((f = fcntl(rfd, F_GETFL)) == -1)
+-		throw strerror(errno);
++		throw std::system_error(errno, std::generic_category(), filename);
+ 	if (fcntl(rfd, F_SETFL, f | O_NONBLOCK) == -1)
+-		throw strerror(errno);
++		throw std::system_error(errno, std::generic_category(), filename);
+ #endif
+ }
+ 
+-- 
+2.42.0
+
